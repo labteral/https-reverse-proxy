@@ -1,0 +1,14 @@
+---
+example1:
+  domains:
+    - example.com
+    - www.example.com
+  endpoints:
+    - 10.0.0.10:10001
+
+example2:
+  domains:
+    - example.org
+    - www.example.org
+  endpoints:
+    - 10.0.0.10:10002

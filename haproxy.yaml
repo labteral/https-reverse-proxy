@@ -1,0 +1,11 @@
+---
+global:
+  daemon:
+  maxconn: 10000   
+
+defaults:
+  mode: http
+  timeout:
+    connect: 5s
+    client: 5s
+    server: 10s
