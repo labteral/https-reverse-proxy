@@ -1,2 +1,2 @@
 #!/bin/bash
-LETSENCRYPT_EMAIL=rodrigo.martinez@councilbox.com
+LETSENCRYPT_EMAIL=webmaster@example.com
