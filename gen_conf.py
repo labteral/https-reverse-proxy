@@ -2,6 +2,7 @@
 # -*- coding: utf-8 -*-
 
 import yaml
+import os
 
 TAB = ' ' * 4
 
@@ -96,8 +97,24 @@ def update_haproxy_conf_with_domains(haproxy_conf, domains_conf):
     haproxy_conf.update(inbound_template)
 
 
+def dump_certbot_script(domains_conf):
+    domains = []
+    for _, value in domains_conf.items():
+        domains += value['domains']
+
+    with open('get-certs.sh', 'a') as output_file:
+        output_file.write('#!/bin/bash\n')
+        certonly_base_cmd = f"certbot certonly --non-interactive --keep --expand --agree-tos -m {os.environ['LETSENCRYPT_EMAIL']} --standalone -d"
+        for domain in domains:
+            output_file.write(f'{certonly_base_cmd} {domain}\n')
+            output_file.write(
+                f'cat /etc/letsencrypt/live/{domain}/fullchain.pem /etc/letsencrypt/live/{domain}/privkey.pem > /etc/haproxy/ssl/{domain}.pem\n'
+            )
+
+
 if __name__ == "__main__":
     haproxy_conf = load_haproxy_conf()
     domains_conf = load_domains_conf()
     update_haproxy_conf_with_domains(haproxy_conf, domains_conf)
     dump_haproxy_conf(haproxy_conf)
+    dump_certbot_script(domains_conf)

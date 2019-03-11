@@ -4,13 +4,12 @@ RUN \
     apt-get update && \
     apt-get -y upgrade && \
     apt-get -y install \
-        python3.7 \
+        python3 \
         python3-pip \
         haproxy \
         software-properties-common && \
     ln -s /usr/bin/python3.7 /usr/bin/python && \
-    ln -s /usr/bin/pip3 /usr/bin/pip && \
-    pip install pyyaml && \
+    pip3 install pyyaml && \
     add-apt-repository universe && \
     echo -e '\n' | add-apt-repository ppa:certbot/certbot && \
     apt-get update && \
