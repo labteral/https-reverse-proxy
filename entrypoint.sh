@@ -1,6 +1,7 @@
 #!/bin/bash
 set -e
 
+mkdir /etc/haproxy/ssl
 python3 gen_conf.py
 bash get-certs.sh
 

@@ -23,8 +23,8 @@ def get_inbound_template():
             'bind': ['*:80', '*:443 ssl crt /etc/haproxy/ssl'],
             'reqadd': 'X-Forwarded-Proto:\\ https',
             'acl': [],
-            'use_backend': [],
-            'redirect': None
+            'redirect': None,
+            'use_backend': []
         }
     }
 
@@ -37,7 +37,7 @@ def should_print_empty_line(key, value, already_printed):
 
 
 def dump_haproxy_conf(haproxy_conf):
-    with open('haproxy.conf', 'w') as output_file:
+    with open('/etc/haproxy/haproxy.cfg', 'w') as output_file:
         for key, value in haproxy_conf.items():
             output_file.write(f'{key}\n')
             already_printed = False
