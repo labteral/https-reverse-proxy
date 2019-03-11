@@ -106,10 +106,7 @@ def dump_certbot_script(domains_conf):
         output_file.write('#!/bin/bash\n')
         certonly_base_cmd = f"certbot certonly --non-interactive --keep --expand --agree-tos -m {os.environ['LETSENCRYPT_EMAIL']} --standalone -d"
         for domain in domains:
-            output_file.write(f'{certonly_base_cmd} {domain}\n')
-            output_file.write(
-                f'cat /etc/letsencrypt/live/{domain}/fullchain.pem /etc/letsencrypt/live/{domain}/privkey.pem > /etc/haproxy/ssl/{domain}.pem\n'
-            )
+            output_file.write(f'{certonly_base_cmd} {domain} && cat /etc/letsencrypt/live/{domain}/fullchain.pem /etc/letsencrypt/live/{domain}/privkey.pem > /etc/haproxy/ssl/{domain}.pem\n')
 
 
 if __name__ == "__main__":
