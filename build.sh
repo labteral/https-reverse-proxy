@@ -1,2 +1,3 @@
 #!/bin/bash
-docker build -t brunneis/reverse-proxy .
+source env.sh
+docker build -t $DOCKER_IMAGE .

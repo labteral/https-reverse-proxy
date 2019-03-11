@@ -1,2 +1,3 @@
 #!/bin/bash
-docker push brunneis/reverse-proxy
+source env.sh
+docker push $DOCKER_IMAGE
