@@ -6,5 +6,6 @@ docker run -d --net=host \
 -v "$CERTS_DIR":/etc/letsencrypt \
 -v "$(pwd)"/domains.yaml:/opt/reverse-proxy/domains.yaml:ro \
 -v "$(pwd)"/haproxy.yaml:/opt/reverse-proxy/haproxy.yaml:ro \
+--restart always \
 --name $CONTAINER_NAME \
 $DOCKER_IMAGE
