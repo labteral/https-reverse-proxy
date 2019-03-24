@@ -1,7 +1,7 @@
 #!/bin/bash
 set -e
 
-mkdir /etc/haproxy/ssl
+mkdir -p /etc/haproxy/ssl
 python3 gen_conf.py
 bash get-certs.sh
 
@@ -11,4 +11,3 @@ while true; do
   sleep 86400 # 1 day
   certbot renew --standalone
 done
-
