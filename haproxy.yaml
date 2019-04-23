@@ -6,6 +6,6 @@ global:
 defaults:
   mode: http
   timeout:
-    connect: 5s
-    client: 5s
-    server: 10s
+    connect: 60s
+    client: 60s
+    server: 60s
