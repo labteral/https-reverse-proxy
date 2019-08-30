@@ -8,6 +8,6 @@ bash get-certs.sh
 /etc/init.d/haproxy start
 
 while true; do
-  sleep 86400 # 1 day
+  sleep 604800 # 7 days
   certbot renew --standalone
 done
