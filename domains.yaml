@@ -10,5 +10,5 @@ example2:
   domains:
     - example.org
     - www.example.org
-  endpoints:
+  ssl_endpoints:
     - 10.0.0.10:10002
