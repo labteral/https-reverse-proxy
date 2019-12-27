@@ -33,4 +33,4 @@ example2:
 
 Edit the file `env.sh` and change the value of the variable `LETSENCRYPT_EMAIL` to the email you want to be used for requesting the certificates.
 
-Now, execute the `launch.sh` script. The script launches a Docker container. A `data` directory will be created containing the certificates once they are obtained. Every day, the container will renew the certificates if needed.
+Now, execute the `launch.sh` script. It will launch a Docker container, creating a `data` directory in the current directory and shared with the host to store the certificates persistently. Every day, the container will renew the certificates if needed.
