@@ -9,12 +9,12 @@ TAB = ' ' * 4
 
 def load_haproxy_conf():
     with open('haproxy.yaml', 'r') as yaml_file:
-        return yaml.load(yaml_file)
+        return yaml.load(yaml_file, Loader=yaml.FullLoader)
 
 
 def load_domains_conf():
     with open('domains.yaml', 'r') as yaml_file:
-        conf = yaml.load(yaml_file)
+        conf = yaml.load(yaml_file, Loader=yaml.FullLoader)
         for key, value in conf.items():
             if 'endpoints' not in value:
                 value['endpoints'] = []
@@ -77,11 +77,11 @@ def update_haproxy_conf_with_domains(haproxy_conf, domains_conf):
         key, value = kv
         domains_string = ' '.join([f'-i {domain}' for domain in value['domains']])
         inbound_template['frontend inbound']['acl'].append(f'is_domain{i} hdr(host) {domains_string}')
-        
+
         if 'ssl' in value and not value['ssl']:
             non_ssl_domains.append(i)
         inbound_template['frontend inbound']['use_backend'].append(f'domain{i} if is_domain{i}')
-        
+
         server_lines = []
 
         if 'endpoints' in value:
@@ -115,12 +115,17 @@ def dump_certbot_script(domains_conf):
     for _, value in domains_conf.items():
         domains += value['domains']
 
-    with open('get-certs.sh', 'a') as output_file:
-        output_file.write('#!/bin/bash\n')
+    with open('get-certs.sh', 'a') as get_certs_file:
+        get_certs_file.write('#!/bin/bash\n')
         certonly_base_cmd = f"certbot certonly --non-interactive --keep --expand --agree-tos -m {os.environ['LETSENCRYPT_EMAIL']} --standalone -d"
         for domain in domains:
-            output_file.write(
-                f'{certonly_base_cmd} {domain} && cat /etc/letsencrypt/live/{domain}/fullchain.pem /etc/letsencrypt/live/{domain}/privkey.pem > /etc/haproxy/ssl/{domain}.pem\n'
+            get_certs_file.write(f'{certonly_base_cmd} {domain}\n')
+
+    with open('load-certs.sh', 'a') as load_certs_file:
+        load_certs_file.write('#!/bin/bash\n')
+        for domain in domains:
+            load_certs_file.write(
+                f'cat /etc/letsencrypt/live/{domain}/fullchain.pem /etc/letsencrypt/live/{domain}/privkey.pem > /etc/haproxy/ssl/{domain}.pem\n'
             )
 
 
