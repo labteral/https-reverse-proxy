@@ -17,14 +17,25 @@ function request_certs {
   sha1sum get-certs.sh > get-certs.sh.sha1
 }
 
+function start_haproxy {
+  haproxy -db -p /var/run/haproxy.pid -f haproxy.cfg 
+}
+
+function stop_haproxy {
+	for pid in $(cat /var/run/haproxy.pid); do
+    kill $pid
+	done
+	rm -f /var/run/haproxy.pid
+}
+
 python3 gen_conf.py
 request_certs
-mkdir -p /etc/haproxy/ssl
+mkdir -p /opt/haproxy/ssl
 
 while true; do
   certbot renew --standalone
   bash load-certs.sh
-  /etc/init.d/haproxy start
+  start_haproxy
   sleep 86400 # 1 day
-  /etc/init.d/haproxy stop
+  stop_haproxy
 done

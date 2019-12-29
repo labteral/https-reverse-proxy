@@ -26,8 +26,8 @@ def load_domains_conf():
 def get_inbound_template():
     return {
         'frontend inbound': {
-            'bind': ['*:80', '*:443 ssl crt /etc/haproxy/ssl'],
-            'reqadd': 'X-Forwarded-Proto:\\ https',
+            'bind': ['*:80', '*:443 ssl crt /opt/haproxy/ssl'],
+            'http-request add-header': 'X-Forwarded-Proto https',
             'acl': [],
             'redirect': None,
             'use_backend': []
@@ -42,7 +42,7 @@ def should_print_empty_line(key, value, already_printed):
 
 
 def dump_haproxy_conf(haproxy_conf):
-    with open('/etc/haproxy/haproxy.cfg', 'w') as output_file:
+    with open('haproxy.cfg', 'w') as output_file:
         for key, value in haproxy_conf.items():
             output_file.write(f'{key}\n')
             already_printed = False
@@ -125,7 +125,7 @@ def dump_certbot_script(domains_conf):
         load_certs_file.write('#!/bin/bash\n')
         for domain in domains:
             load_certs_file.write(
-                f'cat /etc/letsencrypt/live/{domain}/fullchain.pem /etc/letsencrypt/live/{domain}/privkey.pem > /etc/haproxy/ssl/{domain}.pem\n'
+                f'cat /etc/letsencrypt/live/{domain}/fullchain.pem /etc/letsencrypt/live/{domain}/privkey.pem > /opt/haproxy/ssl/{domain}.pem\n'
             )
 
 
