@@ -61,12 +61,11 @@ global
     daemon
     maxconn 10000
     tune.ssl.default-dh-param 2048
-    tune.bufsize 131072
 
 defaults
     mode http
-    timeout connect 300s
-    timeout client 300s
-    timeout server 300s
+    timeout connect 60s
+    timeout client 60s
+    timeout server 60s
 ```
 
