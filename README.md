@@ -36,7 +36,7 @@ Edit the file `env.sh` and change the value of the variable `LETSENCRYPT_EMAIL` 
 Now, execute the `launch.sh` script. It will launch a Docker container, creating a `data` directory in the current directory and shared with the host to store the certificates persistently. Every day, the container will renew the certificates if needed.
 
 
-## HAProxy configuration
+## HAProxy advanced configuration
 You can edit the `haproxy.yaml` file and change default general properties.
 
 For example, the content:
