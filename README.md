@@ -34,3 +34,39 @@ example2:
 Edit the file `env.sh` and change the value of the variable `LETSENCRYPT_EMAIL` to the email you want to be used for requesting the certificates.
 
 Now, execute the `launch.sh` script. It will launch a Docker container, creating a `data` directory in the current directory and shared with the host to store the certificates persistently. Every day, the container will renew the certificates if needed.
+
+
+## HAProxy configuration
+You can edit the `haproxy.yaml` file and change default general properties.
+
+For example, the content:
+```yaml
+---
+global:
+  daemon:
+  maxconn: 10000   
+  tune.ssl.default-dh-param: 2048
+
+defaults:
+  mode: http
+  timeout:
+    connect: 60s
+    client: 60s
+    server: 60s
+```
+
+will generate the following `haproxy.cfg` header:
+```
+global
+    daemon
+    maxconn 10000
+    tune.ssl.default-dh-param 2048
+    tune.bufsize 131072
+
+defaults
+    mode http
+    timeout connect 300s
+    timeout client 300s
+    timeout server 300s
+```
+
