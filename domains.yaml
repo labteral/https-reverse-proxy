@@ -1,14 +1,10 @@
 ---
-example1:
+example:
   domains:
     - example.com
     - www.example.com
   endpoints:
-    - 10.0.0.10:10001
-
-example2:
-  domains:
-    - example.org
-    - www.example.org
+    - 10.0.0.10:80
   ssl_endpoints:
-    - 10.0.0.10:10002
+    - 10.0.0.10:8888
+    - 10.0.0.11:8080
