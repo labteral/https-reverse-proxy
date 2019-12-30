@@ -1,0 +1,23 @@
+version: "3.4"
+
+x-logging: &default
+  options:
+    max-size: "50m"
+    max-file: "1"
+  driver: json-file
+
+services:
+  https-reverse-proxy:
+    image: brunneis/https-reverse-proxy
+    container_name: $CONTAINER_NAME
+    env_file: env.sh
+    volumes:
+      - ./domains.yaml:/opt/https-reverse-proxy/domains.yaml:ro
+      - ./haproxy.yaml:/opt/https-reverse-proxy/haproxy.yaml:ro
+      - ./data/letsencrypt:/etc/letsencrypt
+      - ./data/checksum:/opt/https-reverse-proxy/get-certs.sh.sha1
+    ports:
+      - 80:80
+      - 443:443
+    restart: always
+    logging: *default

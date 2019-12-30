@@ -6,6 +6,7 @@ Let's Encrypt certificates. You only need to indicate your domains and endpoints
 Clone this repository:
 ```
 git clone https://github.com/brunneis/https-reverse-proxy
+cd https-reverse-proxy
 ```
 
 Edit the file `domains.yaml` with your domain names and endpoints. Each domain is represented with an object with a descriptive name for the key and two lists for the value: `domains` and `endpoints`. Add an item for each domain to the list `domains`. Add an endpoint with the structure `IP`:`PORT` for every listening endpoint to the list `endpoints`. The endpoints will be assigned following a Round-robin fashion.
@@ -33,8 +34,15 @@ example2:
 
 Edit the file `env.sh` and change the value of the variable `LETSENCRYPT_EMAIL` to the email you want to be used for requesting the certificates.
 
-Now, execute the `launch.sh` script. It will launch a Docker container, creating a `data` directory in the current directory and shared with the host to store the certificates persistently. Every day, the container will renew the certificates if needed.
+Now, you are ready to go:
 
+```
+docker-compose up -d
+```
+
+The `data` directory will be created in the current directory so the certificates are stored persistently. Every day, the container will renew the certificates if needed.
+
+> If the endpoints are located in the same machine, use the internal address instead of 127.0.0.1, for instance. The Docker container has a different loopback interface than the host by default. However, this behaviour can be changed by removing the `ports` list from the `docker-compose.yaml` file and by setting `network_mode` to `host`.
 
 ## HAProxy advanced configuration
 You can edit the `haproxy.yaml` file and change default general properties.
