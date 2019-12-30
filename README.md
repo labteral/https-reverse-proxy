@@ -42,7 +42,7 @@ docker-compose up -d
 
 The `data` directory will be created in the current directory so the certificates are stored persistently. Every day, the container will renew the certificates if needed.
 
-> If the endpoints are located in the same machine, use the internal address instead of 127.0.0.1, for instance. The Docker container has a different loopback interface than the host by default. However, this behaviour can be changed by removing the `ports` list from the `docker-compose.yaml` file and by setting `network_mode` to `host`.
+> If the endpoints are located in the same machine, use the internal address instead of `127.0.0.1`, for instance. The Docker container has a different loopback interface than the host by default. However, this behaviour can be changed by removing the `ports` list from the `docker-compose.yaml` file and by setting `network_mode` to `host`.
 
 ## HAProxy advanced configuration
 You can edit the `haproxy.yaml` file and change default general properties.
