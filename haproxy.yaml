@@ -1,18 +1,20 @@
 ---
 global:
   daemon:
-  maxconn: 10000   
-  tune.ssl.default-dh-param: 2048
+  maxconn: 10000
+  nbproc: 1 
+  nbthread: 4
+  tune.ssl.default-dh-param: 4096
   ssl-default-bind-options: force-tlsv13
   ssl-default-bind-ciphersuites: TLS_AES_128_GCM_SHA256:TLS_AES_256_GCM_SHA384:TLS_CHACHA20_POLY1305_SHA256
-  
+
 defaults:
   option: forwardfor
   option: http-server-close
   option: http-pretend-keepalive
-  
+
   mode: http
   timeout:
-    connect: 60s
-    client: 60s
-    server: 60s
+    connect: 30s
+    client: 2h
+    server: 2h
