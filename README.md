@@ -24,15 +24,31 @@ example1:
 If your endpoint has SSL enabled, use the `ssl_endpoints` list instead of `endpoints`.
 ```yaml
 ---
-example2:
+example1:
   domains:
-    - example.org
-    - www.example.org
+    - example.com
+    - www.example.com
+  endpoints:
+    - 10.0.0.10:10001
   ssl_endpoints:
     - 10.0.0.10:10002
 ```
 
-Edit the file `env.sh` and change the value of the variable `LETSENCRYPT_EMAIL` to the email you want to be used for requesting the certificates.
+If you don't want to force SSL connections for some domains, you can set the `force_ssl` flag to `false`:
+```yaml
+---
+example1:
+  force_ssl: false
+  domains:
+    - example.com
+    - www.example.com
+  endpoints:
+    - 10.0.0.10:10001
+  ssl_endpoints:
+    - 10.0.0.10:10002
+```
+
+Edit the file `.env` and change the value of the variable `LETSENCRYPT_EMAIL` to the email you want to be used for requesting the certificates.
 
 Now, you are ready to go:
 

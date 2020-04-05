@@ -8,9 +8,9 @@ x-logging: &default
 
 services:
   https-reverse-proxy:
-    image: brunneis/https-reverse-proxy
+    image: $DOCKER_IMAGE
     container_name: https-reverse-proxy
-    env_file: env.sh
+    env_file: .env
     volumes:
       - ./domains.yaml:/opt/https-reverse-proxy/domains.yaml:ro
       - ./haproxy.yaml:/opt/https-reverse-proxy/haproxy.yaml:ro

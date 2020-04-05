@@ -14,13 +14,7 @@ def load_haproxy_conf():
 
 def load_domains_conf():
     with open('domains.yaml', 'r') as yaml_file:
-        conf = yaml.load(yaml_file, Loader=yaml.FullLoader)
-        for key, value in conf.items():
-            if 'endpoints' not in value:
-                value['endpoints'] = []
-            if 'ssl_endpoints' not in value:
-                value['ssl_endpoints'] = []
-        return conf
+        return yaml.load(yaml_file, Loader=yaml.FullLoader)
 
 
 def get_inbound_template():
@@ -78,27 +72,29 @@ def update_haproxy_conf_with_domains(haproxy_conf, domains_conf):
         domains_string = ' '.join([f'-i {domain}' for domain in value['domains']])
         inbound_template['frontend inbound']['acl'].append(f'is_domain{i} hdr(host) {domains_string}')
 
-        if 'ssl' in value and not value['ssl']:
+        if 'force_ssl' in value and not value['force_ssl']:
             non_ssl_domains.append(i)
         inbound_template['frontend inbound']['use_backend'].append(f'domain{i} if is_domain{i}')
 
         server_lines = []
+        j = 0
 
         if 'endpoints' in value:
             check_string = ''
             if len(value['endpoints']) > 1:
                 check_string = 'check '
-            for j, endpoint in enumerate(value['endpoints']):
+            for endpoint in value['endpoints']:
                 server_lines.append(f"s{i}{j} {endpoint} {check_string}maxconn {haproxy_conf['global']['maxconn']}")
+                j += 1
 
         if 'ssl_endpoints' in value:
             ssl_check_string = ''
             if len(value['ssl_endpoints']) > 1:
                 ssl_check_string = 'check '
-            for j, ssl_endpoint in enumerate(value['ssl_endpoints']):
+            for ssl_endpoint in value['ssl_endpoints']:
                 server_lines.append(
-                    f"s{i}{j} {ssl_endpoint} {ssl_check_string}ssl verify none maxconn {haproxy_conf['global']['maxconn']}"
-                )
+                    f"s{i}{j} {ssl_endpoint} {ssl_check_string}ssl maxconn {haproxy_conf['global']['maxconn']}")
+                j += 1
 
         inbound_template[f'backend domain{i} # {key}'] = {
             'balance': 'roundrobin',

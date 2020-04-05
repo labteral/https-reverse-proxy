@@ -1,3 +1,3 @@
 #!/bin/bash
-source env.sh
+source .env
 docker build -t $DOCKER_IMAGE .
