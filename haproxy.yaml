@@ -14,10 +14,10 @@ global:
   # ssl-default-bind-ciphersuites: TLS_AES_128_GCM_SHA256:TLS_AES_256_GCM_SHA384:TLS_CHACHA20_POLY1305_SHA256
 
 defaults:
-  option: forwardfor
-  option: http-server-close
-  option: http-pretend-keepalive
-
+  option:
+    http-server-close: ""
+    forwardfor: ""
+    http-pretend-keepalive: ""
   mode: http
   timeout:
     connect: 30s
