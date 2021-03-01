@@ -1,6 +1,9 @@
 #!/bin/bash
 set -e
 
+TARGET_HOUR=${TARGET_HOUR:-3}
+WAIT_DAYS=${TARGET_HOUR:-7}
+
 function request_certs {
   if [ ! -f get-certs.sh.sha1 ]; then
     sha1sum get-certs.sh > get-certs.sh.sha1
@@ -37,17 +40,26 @@ function renew_certs {
   certbot renew --standalone
 }
 
-mkdir -p /opt/haproxy/ssl
+function wait_interval {
+  sleep $((WAIT_DAYS*86400))
+  hour=$(date +"%H")
+  if [ $hour -gt $TARGET_HOUR ]; then
+      extra_hours=$((24-hour+TARGET_HOUR))
+  else
+      extra_hours=$((TARGET_HOUR-hour))
+  fi
+  sleep $((extra_hours*3600))
+}
 
+mkdir -p /opt/haproxy/ssl
 python3 gen_conf.py
 request_certs
-
 cat haproxy.cfg
 
 while true; do
   bash load-certs.sh
   start_haproxy
-  sleep 86400 # 1 day
+  wait_interval
   stop_haproxy
   renew_certs
 done
