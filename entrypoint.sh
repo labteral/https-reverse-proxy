@@ -1,8 +1,8 @@
 #!/bin/bash
 set -e
 
-TARGET_HOUR=${TARGET_HOUR:-3}
 WAIT_DAYS=${TARGET_HOUR:-7}
+TARGET_HOUR=${TARGET_HOUR:-3}
 
 function request_certs {
   if [ ! -f get-certs.sh.sha1 ]; then

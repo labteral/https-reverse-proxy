@@ -5,7 +5,7 @@ Let's Encrypt certificates. You only need to indicate your domains and endpoints
 ## Usage
 Clone this repository:
 ```
-git clone https://github.com/brunneis/https-reverse-proxy
+git clone https://github.com/labteral/https-reverse-proxy
 cd https-reverse-proxy
 ```
 
@@ -48,7 +48,7 @@ example1:
     - 10.0.0.10:10002
 ```
 
-Edit the file `.env` and change the value of the variable `LETSENCRYPT_EMAIL` to the email you want to be used for requesting the certificates.
+Edit the file `.env` and change the value of the variable `LETSENCRYPT_EMAIL` to the email you want to be used for requesting the certificates. You can also change the default values for `TARGET_HOUR` and `WAIT_DAYS` to customize the renew frequency of the certificates.
 
 Now, you are ready to go:
 
