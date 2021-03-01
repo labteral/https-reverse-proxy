@@ -41,14 +41,15 @@ function renew_certs {
 }
 
 function wait_interval {
-  sleep $((WAIT_DAYS*86400))
   hour=$(date +"%H")
   if [ $hour -gt $TARGET_HOUR ]; then
       extra_hours=$((24-hour+TARGET_HOUR))
   else
       extra_hours=$((TARGET_HOUR-hour))
   fi
-  sleep $((extra_hours*3600))
+  echo -e "\n * Waiting $WAIT_DAYS days and $extra_hours hours"
+  sleep $((WAIT_DAYS*86400+extra_hours*3600))
+  echo -e "   ...done.\n"
 }
 
 mkdir -p /opt/haproxy/ssl
