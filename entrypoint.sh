@@ -41,7 +41,7 @@ function renew_certs {
 }
 
 function wait_interval {
-  hour=$(date +"%H")
+  hour=$(date +"%k")
   if [ $hour -gt $TARGET_HOUR ]; then
       extra_hours=$((24-hour+TARGET_HOUR))
   else
