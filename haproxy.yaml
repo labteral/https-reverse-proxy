@@ -2,7 +2,6 @@
 global:
   daemon:
   maxconn: 10000
-  nbproc: 1 
   nbthread: 4
   tune.ssl.default-dh-param: 2048
   ssl-server-verify: none

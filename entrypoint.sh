@@ -1,7 +1,7 @@
 #!/bin/bash
 set -e
 
-WAIT_DAYS=${TARGET_HOUR:-7}
+WAIT_DAYS=${WAIT_DAYS:-7}
 TARGET_HOUR=${TARGET_HOUR:-3}
 
 function request_certs {

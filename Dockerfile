@@ -12,20 +12,21 @@
 # You should have received a copy of the GNU General Public License
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-FROM brunneis/haproxy
+FROM haproxy:lts-bullseye
 LABEL maintainer="dev@brunneis.com"
 
 ################################################
 # HTTPS REVERSE PROXY
 ################################################
 
+USER root
 RUN \
-    yum -y install python3 \
+    apt-get update \
+    && apt-get -y install python3 python3-pip \
     && ln -s /usr/bin/python3 /usr/bin/python \
     && pip3 install pyyaml \
-    && yum -y install epel-release yum-utils \
-    && yum -y install certbot \
-    && yum -y clean all
+    && apt-get update && apt-get -y install certbot \
+    && apt-get clean
 
 COPY gen_conf.py /opt/https-reverse-proxy/
 COPY entrypoint.sh /usr/bin/
